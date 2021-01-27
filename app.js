@@ -3,7 +3,7 @@ const app = express();
 const testController = require('./controllers/testController');
 
 
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 8008;
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname));

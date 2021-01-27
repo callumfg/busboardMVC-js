@@ -7,10 +7,16 @@ class Bus{
 	}
 
 	showTestData() {
-//		return this.name + ", id: " + this.id; 
-        return "Stop name " + this.station + " : " + this.line + " towards " + this.towards + " in " + this.time + " seconds"
-//console.log(`${bus.line} towards ${bus.towards} : ${toMinutes(bus.time)}`))
+        return this.line + " towards " + this.towards + ": " + toMinutes(this.time) 
+		function toMinutes(seconds){
+			if (Math.floor(seconds / 60) >= 1){return `${Math.floor(seconds/60)} mins`
+			} else{return 'due'}
+		}
 	};
+
+	showHeader(){
+		return "Bus Stop : " + this.station
+	}
 
 	// editName(newName) {
 	// 	this.name = newName

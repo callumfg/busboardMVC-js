@@ -8,13 +8,50 @@
 </head>
 
 <body id="home">
-	<h1>MVC example</h1>
-	<ul>
-		<%
-			topBus.forEach((bus) => { %>
-			<li><b><%= bus.showTestData() %></b></li>
+	<h1><span>Bus Details for <%=passedPostcode %></span></h1>
+	<h2><span><%=topBus[0].showHeader()%></span></h2>
+	<ol>
+		<%topBus.forEach((bus) => { %>
+			<li><b><span><%= bus.showTestData() %></span></b></li>
 		<% });
 		%>
-	</ul>
+	</ol>
+	<h2><span><%=topBus2[0].showHeader()%></span></h2>
+	<ol>
+		<%
+			topBus2.forEach((bus) => { %>
+				<li><b><span><%= bus.showTestData() %></span></b></li>
+		<% });
+		%>
+	</ol>
 </body>
 </html>
+<style type= "text/css">
+body {background-position-x: center;
+	background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/First_London_Routemaster_bus_RM1562_(562_CLT)%2C_heritage_route_9%2C_Kensington_High_Street%2C_27_August_2011_(1).jpg/1200px-First_London_Routemaster_bus_RM1562_(562_CLT)%2C_heritage_route_9%2C_Kensington_High_Street%2C_27_August_2011_(1).jpg");
+      background-repeat: no-repeat;
+}
+h1 {
+	
+	list-style-position: inside;
+text-align: center;
+color: white;
+
+}
+h1 span{background-color: rgba(0, 0, 0, 0.548)}
+
+h2 {list-style-position: inside;
+text-align: center;
+color: white;
+}
+
+h2 span{background-color:  rgba(0, 0, 0, 0.548)}
+
+ol {list-style-position: inside;
+text-align: center;
+color: white;
+}
+ li span{background-color:  rgba(0, 0, 0, 0.548)}   
+/* body {background-color: rgba(230, 17, 17, 0.5);} */
+
+</style>

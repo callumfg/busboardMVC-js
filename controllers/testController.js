@@ -10,9 +10,31 @@ res.render('testView', {
 exports.getBusHTML = (req, res) => {
 
 		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-		
 		var passedPostcode = req.params.postcode
-		console.log(passedPostcode)
+		validatePostcode(passedPostcode)
+
+		function validatePostcode (passedPostcode){
+			var urlValPostcode = `https://api.postcodes.io/postcodes/${passedPostcode}/validate`
+			var requestPost = new XMLHttpRequest()
+			requestPost.open('GET', urlValPostcode, true)
+		    requestPost.onreadystatechange = function () {
+			if (requestPost.readyState === 4) {
+				// console.log(requestPost.responseText)
+				
+					var reqPost = JSON.parse(requestPost.responseText)
+					console.log(reqPost)
+					if (reqPost.result === true){
+						validPostcode(passedPostcode)
+					}else {
+						res.render('errorView', {
+						passedPostcode: req.params.postcode})
+					}
+			}
+		  }
+	    requestPost.send()
+		}	
+		// validPostcode(passedPostcode)
+		function validPostcode(passedPostcode){
 		var urlLatLong = `https://api.postcodes.io/postcodes?q=${passedPostcode}`
 		//getUrlLongLat(passedPostcode);
 	    //var urlLatLong = getUrlLongLat()
@@ -23,8 +45,12 @@ exports.getBusHTML = (req, res) => {
 					var reqLL = JSON.parse(requestLL.responseText)
 					getStopArr(reqLL)
 			}
-		}
+		  }
+	    
 		requestLL.send()
+		}
+
+		
 
 		function getStopArr(reqLL){ 
 			var latitude = getLat(reqLL)
@@ -70,13 +96,6 @@ exports.getBusHTML = (req, res) => {
 			requestSC.send()
 		}
 
-
-		// function getUrlLongLat(){
-  		// //	console.log("Enter your post code(no spaces)")
-  		// //	let postcode = readline.prompt()
- 		// 	let postcode = "NW51TL"
-		// 	return `https://api.postcodes.io/postcodes?q=${postcode}`
-		// }
 
 		function getLat(reqLL){
 			return reqLL.result[0].latitude
@@ -138,9 +157,9 @@ exports.getBusHTML = (req, res) => {
 			buses2.sort((a, b) => {
 					return a.time - b.time
 			})
-
+            let topFive2 = [];
 			for (let a = 0; a<= 4 && a<buses2.length; a++){
-			topFive.push(buses2[a])   
+			topFive2.push(buses2[a])   
 			}
 				// return topFive
 
@@ -156,9 +175,13 @@ exports.getBusHTML = (req, res) => {
 
 			var topBus = []
 			topFive.forEach(bus => topBus.push(new Bus(bus.station, bus.line, bus.towards, bus.time)))
-	
+//			topBus = topFive.map(bus => {return new Bus(bus.station, bus.line, bus.towards, bus.time)})
+			var topBus2 =[]
+			topFive2.forEach(bus => topBus2.push(new Bus(bus.station, bus.line, bus.towards, bus.time)))
 					res.render('testView', {
 					topBus : topBus,
+					topBus2 : topBus2,
+					passedPostcode : req.params.postcode
 					})
 
 		}
